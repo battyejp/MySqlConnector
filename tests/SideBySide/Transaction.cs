@@ -39,7 +39,7 @@ namespace SideBySide
 			var results = connection.Query<string>($"select convert(argument USING utf8) from mysql.general_log where thread_id = {m_connection.ServerThread} order by event_time desc limit 10;");
 			var lastIsolationLevelQuery = results.First(x => x.ToLower().Contains("isolation"));
 			Assert.Equal(results.First(), results.Last());
-			//Assert.Contains(expectedTransactionIsolationLevel.ToLower(), lastIsolationLevelQuery.ToLower());
+			Assert.Contains(expectedTransactionIsolationLevel.ToLower(), lastIsolationLevelQuery.ToLower());
 		}
 
 		// [Theory]
