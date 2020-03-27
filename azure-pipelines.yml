@@ -123,7 +123,7 @@ jobs:
   #   - template: '.ci/mysqlconnector-tests-steps.yml'
 
   - job: linux_integration_tests
-    dependsOn: linux_build
+    # dependsOn: linux_build
     displayName: "Linux Tests"
     pool:
       vmimage: "ubuntu-latest"
