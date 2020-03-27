@@ -20,8 +20,8 @@ namespace SideBySide
 
 		[Theory]
 		[InlineData(IsolationLevel.ReadUncommitted, "read uncommitted")]
-		// [InlineData(IsolationLevel.ReadCommitted, "read committed")]
-		// [InlineData(IsolationLevel.RepeatableRead, "repeatable read")]
+		[InlineData(IsolationLevel.ReadCommitted, "read committed")]
+		[InlineData(IsolationLevel.RepeatableRead, "repeatable read")]
 		// [InlineData(IsolationLevel.Serializable, "serializable")]
 		// [InlineData(IsolationLevel.Snapshot, "repeatable read")]
 		// [InlineData(IsolationLevel.Unspecified, "repeatable read")]
@@ -40,6 +40,10 @@ namespace SideBySide
 			//Assert.Equal(results.First(), results.Last());
 			var lastIsolationLevelQuery = results.First(x => x.ToLower().Contains("isolation"));
 			//Assert.Equal("expected", lastIsolationLevelQuery);
+
+			if (inputIsolationLevel == IsolationLevel.RepeatableRead)
+				Assert.InRange(results.Count(), 0, 1);
+
 			Assert.Contains(expectedTransactionIsolationLevel.ToLower(), lastIsolationLevelQuery.ToLower());
 		}
 
