@@ -37,12 +37,10 @@ namespace SideBySide
 
 			m_connection.Execute(@"set global general_log = 0;");
 			var results = connection.Query<string>($"select convert(argument USING utf8) from mysql.general_log where thread_id = {m_connection.ServerThread} order by event_time desc limit 10;");
-			//Assert.Equal(results.First(), results.Last());
 			var lastIsolationLevelQuery = results.First(x => x.ToLower().Contains("isolation"));
-			//Assert.Equal("expected", lastIsolationLevelQuery);
 
 			if (inputIsolationLevel == IsolationLevel.RepeatableRead)
-				Assert.InRange(results.Count(), 0, 1);
+				Assert.Equal(results.First(), results.ElementAt(1));
 
 			Assert.Contains(expectedTransactionIsolationLevel.ToLower(), lastIsolationLevelQuery.ToLower());
 		}
