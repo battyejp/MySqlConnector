@@ -43,14 +43,15 @@ namespace SideBySide
 			Assert.Contains(expectedTransactionIsolationLevel.ToLower(), lastIsolationLevelQuery.ToLower());
 		}
 
-#if !NET452 && !NET461 && !NET472
 		[Theory]
 		[InlineData(IsolationLevel.ReadUncommitted, "start transaction")]
 		[InlineData(IsolationLevel.ReadCommitted, "start transaction")]
 		[InlineData(IsolationLevel.RepeatableRead, "start transaction")]
 		[InlineData(IsolationLevel.Serializable, "start transaction")]
 		[InlineData(IsolationLevel.Unspecified, "start transaction")]
+#if !NET452 && !NET461 && !NET472
 		[InlineData(IsolationLevel.Snapshot, "start transaction with consistent snapshot")]
+#endif
 		public void DbConnectionTransactionCommand(IsolationLevel inputIsolationLevel, string expectedTransactionIsolationLevel)
 		{
 			DbConnection connection = m_connection;
