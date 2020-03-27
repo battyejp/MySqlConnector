@@ -3,44 +3,44 @@ variables:
   NUGET_PACKAGES: "$(Pipeline.Workspace)/.nuget/packages"
 
 jobs:
-  # - job: linux_build
-  #   displayName: 'Linux Build'
-  #   pool:
-  #     vmimage: 'ubuntu-latest'
-  #   steps:
-  #   - template: '.ci/build-steps.yml'
-  # - job: windows_build
-  #   displayName: 'Windows Build'
-  #   pool:
-  #     vmimage: 'windows-latest'
-  #   steps:
-  #   - template: '.ci/build-steps.yml'
-  #   - task: DotNetCoreCLI@2
-  #     displayName: 'Publish SideBySide (net472)'
-  #     inputs:
-  #       command: 'publish'
-  #       arguments: '-c Release -f net472 tests/SideBySide/SideBySide.csproj'
-  #       publishWebProjects: false
-  #       zipAfterPublish: false
-  #   - task: PublishPipelineArtifact@0
-  #     inputs:
-  #       artifactName: 'SideBySide-net472-$(Agent.OS)'
-  #       targetPath: 'tests/SideBySide/bin/Release/net472/publish'
-  #   - task: DotNetCoreCLI@2
-  #     displayName: 'Create NuGet packages'
-  #     inputs:
-  #       command: 'custom'
-  #       projects: 'src/**/*.csproj'
-  #       custom: 'pack'
-  #       arguments: '-c Release --version-suffix build-$(Build.BuildNumber) -o $(Build.ArtifactStagingDirectory)'
-  #   - task: DotNetCoreCLI@2
-  #     displayName: 'Publish packages'
-  #     condition: ne(variables['Build.Reason'], 'PullRequest')
-  #     inputs:
-  #       command: 'push'
-  #       packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
-  #       nuGetFeedType: 'internal'
-  #       publishVstsFeed: 'Builds'
+  - job: linux_build
+    displayName: "Linux Build"
+    pool:
+      vmimage: "ubuntu-latest"
+    steps:
+      - template: ".ci/build-steps.yml"
+  - job: windows_build
+    displayName: "Windows Build"
+    pool:
+      vmimage: "windows-latest"
+    steps:
+      - template: ".ci/build-steps.yml"
+      - task: DotNetCoreCLI@2
+        displayName: "Publish SideBySide (net472)"
+        inputs:
+          command: "publish"
+          arguments: "-c Release -f net472 tests/SideBySide/SideBySide.csproj"
+          publishWebProjects: false
+          zipAfterPublish: false
+      - task: PublishPipelineArtifact@0
+        inputs:
+          artifactName: "SideBySide-net472-$(Agent.OS)"
+          targetPath: "tests/SideBySide/bin/Release/net472/publish"
+      - task: DotNetCoreCLI@2
+        displayName: "Create NuGet packages"
+        inputs:
+          command: "custom"
+          projects: "src/**/*.csproj"
+          custom: "pack"
+          arguments: "-c Release --version-suffix build-$(Build.BuildNumber) -o $(Build.ArtifactStagingDirectory)"
+      - task: DotNetCoreCLI@2
+        displayName: "Publish packages"
+        condition: ne(variables['Build.Reason'], 'PullRequest')
+        inputs:
+          command: "push"
+          packagesToPush: "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+          nuGetFeedType: "internal"
+          publishVstsFeed: "Builds"
   # - job: windows_baseline
   #   displayName: "Baseline"
   #   pool:
