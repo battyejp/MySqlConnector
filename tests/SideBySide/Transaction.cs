@@ -6,16 +6,20 @@ using System.Threading.Tasks;
 using Dapper;
 using MySql.Data.MySqlClient;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace SideBySide
 {
 	public class Transaction : IClassFixture<TransactionFixture>
 	{
-		public Transaction(TransactionFixture database)
+		private readonly ITestOutputHelper _output;
+
+		public Transaction(TransactionFixture database, ITestOutputHelper output)
 		{
 			m_database = database;
 			m_connection = m_database.Connection;
 			m_connection.Execute("delete from transactions_test");
+			_output = output;
 		}
 
 		[Theory]
@@ -71,6 +75,10 @@ namespace SideBySide
 
 			m_connection.Execute(@"set global general_log = 0;");
 			var results = connection.Query<string>($"select convert(argument USING utf8) from mysql.general_log where thread_id = {m_connection.ServerThread} order by event_time desc limit 10;");
+
+			for (int x = 0; x > results.Count(); x++)
+				_output.WriteLine($"results: {results.ElementAt(x)}");
+
 			var lastStartTransactionQuery = results.First(x => x.ToLower().Contains("start"));
 
 			if (IsMySqlVersionLessThan57(m_connection.ServerVersion))
