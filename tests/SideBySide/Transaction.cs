@@ -22,9 +22,9 @@ namespace SideBySide
 		[InlineData(IsolationLevel.ReadUncommitted, "read uncommitted")]
 		[InlineData(IsolationLevel.ReadCommitted, "read committed")]
 		[InlineData(IsolationLevel.RepeatableRead, "repeatable read")]
-		// [InlineData(IsolationLevel.Serializable, "serializable")]
-		// [InlineData(IsolationLevel.Snapshot, "repeatable read")]
-		// [InlineData(IsolationLevel.Unspecified, "repeatable read")]
+		[InlineData(IsolationLevel.Serializable, "serializable")]
+		//[InlineData(IsolationLevel.Snapshot, "repeatable read")]
+		[InlineData(IsolationLevel.Unspecified, "repeatable read")]
 		public void DbConnectionIsolationLevel(IsolationLevel inputIsolationLevel, string expectedTransactionIsolationLevel)
 		{
 			DbConnection connection = m_connection;
