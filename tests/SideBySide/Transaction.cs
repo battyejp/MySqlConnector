@@ -99,7 +99,7 @@ namespace SideBySide
 			var version = new Version("5.7");
             Version currentVersion = null;
 
-            if (Version.TryParse(input, out ver))
+            if (Version.TryParse(currentVersionStr, out currentVersion))
 			{
 				var result = version.CompareTo(currentVersion);
 				return result > 0;
