@@ -77,7 +77,10 @@ namespace SideBySide
 			var results = connection.Query<string>($"select convert(argument USING utf8) from mysql.general_log where thread_id = {m_connection.ServerThread} order by event_time desc limit 10;");
 
 			for (int x = 0; x > results.Count(); x++)
+			{
+				Console.WriteLine($"results: {results.ElementAt(x)}");
 				_output.WriteLine($"results: {results.ElementAt(x)}");
+			}
 
 			Assert.Equal(results.ElementAt(2), results.ElementAt(3));
 			var lastStartTransactionQuery = results.First(x => x.ToLower().Contains("start"));
