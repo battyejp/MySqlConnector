@@ -79,7 +79,7 @@ namespace SideBySide
 			for (int x = 0; x > results.Count(); x++)
 				_output.WriteLine($"results: {results.ElementAt(x)}");
 
-			Assert.Equal(results.ElementAt(0), results.ElementAt(1));
+			Assert.Equal(results.ElementAt(2), results.ElementAt(3));
 			var lastStartTransactionQuery = results.First(x => x.ToLower().Contains("start"));
 
 			if (IsMySqlVersionLessThan57(m_connection.ServerVersion))
