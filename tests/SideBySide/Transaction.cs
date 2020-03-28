@@ -81,8 +81,6 @@ namespace SideBySide
 				_output.WriteLine($"results: {results.ElementAt(x)}");
 			}
 
-			Assert.Equal("Version", m_connection.ServerVersion);
-			Assert.Equal(results.ElementAt(2), results.ElementAt(3));
 			var lastStartTransactionQuery = results.First(x => x.ToLower().Contains("start"));
 
 			if (IsMySqlAndVersionLessThan57(m_connection.ServerVersion))
