@@ -108,6 +108,7 @@ namespace SideBySide
 
 			return false;
 		}
+
 		readonly TransactionFixture m_database;
 		readonly MySqlConnection m_connection;
 	}
