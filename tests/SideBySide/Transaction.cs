@@ -93,13 +93,14 @@ namespace SideBySide
 
 			Assert.Contains(expectedTransactionIsolationLevel.ToLower(), lastStartTransactionQuery.ToLower());
 		}
+#endif
 
 		private bool IsMySqlAndVersionLessThan57(string currentVersionStr)
 		{
 			var version = new Version("5.7");
-            Version currentVersion = null;
+			Version currentVersion = null;
 
-            if (Version.TryParse(currentVersionStr, out currentVersion))
+			if (Version.TryParse(currentVersionStr, out currentVersion))
 			{
 				var result = version.CompareTo(currentVersion);
 				return result > 0;
@@ -107,8 +108,6 @@ namespace SideBySide
 
 			return false;
 		}
-#endif
-
 		readonly TransactionFixture m_database;
 		readonly MySqlConnection m_connection;
 	}
